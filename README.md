@@ -34,13 +34,13 @@ This is a **Streamlit** application that provides real-time visualizations of ma
 
 2. Install the required dependencies:
 
-  ```bash
-  Copy code
-  pip install -r requirements.txt
+    ```bash
+    Copy code
+    pip install -r requirements.txt
 
 3. Run the app
-  ```bash
-  streamlit run main.py
+    ```bash
+    streamlit run main.py
 
 ## Data Sources
 
