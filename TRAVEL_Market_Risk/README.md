@@ -5,12 +5,15 @@ This project is a Streamlit-based dashboard that provides real-time or near-real
 ## Project Structure
 
 **Configuration file for app settings (titles, colors, etc.)**
+
 ├── config.py 
 
 **Data extraction functions from external sources**
+
 ├── get_data.py
 
 **Folder containing CSV files for bond data downloaded and inputed manually from investing.com**
+
 ├── bonds_data │ └── <bonds_es_5y.csv> │ └── <bonds_ger_5y.csv> │ └── <bonds_pt_5y.csv> │
 
 ├── cds_data/ # Folder containing CSV files for CDS data downloaded and inputed manually from investing.com │ └── <cds_es_5y.csv> │ └── <cds_ger_5y.csv> │ └── <cds_us_5y.csv> 
