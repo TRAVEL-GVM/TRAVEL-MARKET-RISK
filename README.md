@@ -1,1 +1,1 @@
-https://travel-market-risk-gvm.streamlit.app/
+https://travel-market-risk.streamlit.app/
