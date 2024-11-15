@@ -14,9 +14,12 @@ This project is a Streamlit-based dashboard that provides real-time or near-real
 
 **Folder containing CSV files for bond data downloaded and inputed manually from investing.com**
 
-├── bonds_data │ └── <bonds_es_5y.csv> │ └── <bonds_ger_5y.csv> │ └── <bonds_pt_5y.csv> │
+├── bonds_data │ └── <bonds_es_5y.csv> │ └── <bonds_ger_5y.csv> │ └── <bonds_pt_5y.csv> 
 
-├── cds_data/ # Folder containing CSV files for CDS data downloaded and inputed manually from investing.com │ └── <cds_es_5y.csv> │ └── <cds_ger_5y.csv> │ └── <cds_us_5y.csv> 
+**Folder containing CSV files for CDS data downloaded and inputed manually from investing.com**
+├── cds_data/ 
+
+│ └── <cds_es_5y.csv> │ └── <cds_ger_5y.csv> │ └── <cds_us_5y.csv> 
 
 ├── load_data.py # Loads and preprocesses data 
 
