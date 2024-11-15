@@ -4,7 +4,8 @@ This project is a Streamlit-based dashboard that provides real-time or near-real
 
 ## Project Structure
 
-├── config.py # Configuration file for app settings (titles, colors, etc.)
+### Configuration file for app settings (titles, colors, etc.)
+├── config.py 
 
 ├── get_data.py # Data extraction functions from external sources
 
