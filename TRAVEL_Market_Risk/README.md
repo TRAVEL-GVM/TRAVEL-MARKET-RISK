@@ -8,14 +8,13 @@ This project is a Streamlit-based dashboard that provides real-time or near-real
 
 ├── get_data.py # Data extraction functions from external sources
 
-├── bonds_data/ # Folder containing Excel files for bond data │ └── <file1.xlsx> │ └── <file2.xlsx> │
+├── bonds_data/ # Folder containing CSV files for bond data downloaded and inputed manually from investing.com│ └── <bonds_es_5y.csv> │ └── <bonds_ger_5y.csv> │ └── <bonds_pt_5y.csv> │
 
-├── cds_data/ # Folder containing Excel files for CDS data │ └── <file1.xlsx> │ └── <file2.xlsx> │ 
+├── cds_data/ # Folder containing CSV files for CDS data downloaded and inputed manually from investing.com │ └── <cds_es_5y.csv> │ └── <cds_ger_5y.csv> │ └── <cds_us_5y.csv> 
 
 ├── load_data.py # Loads and preprocesses data 
 
 ├── viz.py # Visualization functions for plotting data
-
 
 ├── main.py # Main Streamlit application file
 
