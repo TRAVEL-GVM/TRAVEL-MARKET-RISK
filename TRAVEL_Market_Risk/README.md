@@ -21,11 +21,15 @@ This project is a Streamlit-based dashboard that provides real-time or near-real
 
 │ └── <cds_es_5y.csv> │ └── <cds_ger_5y.csv> │ └── <cds_us_5y.csv> 
 
-├── load_data.py # Loads and preprocesses data 
 
-├── viz.py # Visualization functions for plotting data
+**Loads and preprocesses data** 
+├── load_data.py 
 
-├── main.py # Main Streamlit application file
+ **# Visualization functions for plotting data**
+├── viz.py
+
+**Main Streamlit application file**
+├── main.py
 
 
 
