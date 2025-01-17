@@ -29,8 +29,7 @@ This is a **Streamlit** application that provides real-time visualizations of ma
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/financial-dashboard.git
-   cd financial-dashboard
+   git clone https://github.com/TRAVEL-GVM/TRAVEL-MARKET-RISK.git
 
 2. Install the required dependencies:
 
