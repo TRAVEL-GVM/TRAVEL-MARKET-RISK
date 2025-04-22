@@ -7,6 +7,18 @@ import plotly.graph_objects as go
 import warnings
 warnings.filterwarnings("ignore")
 
+#yfinance
+#plotly
+#xlsxwriter
+#matplotlib
+#seaborn
+#pyjstat
+#ecbdata
+#fredapi
+#fake_useragent
+#hmmlearn
+
+
 ######################## LOAD DATA
 
 

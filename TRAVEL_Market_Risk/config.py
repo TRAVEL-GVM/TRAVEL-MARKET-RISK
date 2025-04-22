@@ -2,12 +2,15 @@
 default_color1 = '#179297'
 default_color2 = '#BFCE28'
 
-sidebar_indicators = ("Fear & Greed Index", "VIX", "Warren Buffett indicator - Marketcap to GDP", "Benchmark Indexs",
- "Yield Bonds 5Y - Spain, Germany, Portugal, Euro Area", "Yield CDS 5Y - Spain, Germany, USA", "Euribor rates - 1M, 3M, 6M, 12M",
+sidebar_indicators = ("Fear & Greed Index", "VIX", "Warren Buffett indicator - Marketcap to GDP", "Benchmark Indexs", "Euribor rates - 1M, 3M, 6M, 12M",
  "Commercial Property prices", "Residential Property prices", "Inflation (CPI) - Portugal", "Currency exchange rates",
  "Euro short-term rate (€STR)", "Key ECB interest rates", "SOFR", "CME Tool")
 
-dashboard_main_title = "TRAVEL - Market Risk Dashboard"
+sidebar_indicators2 = ["Fear & Greed", "VIX", "Warren Buffett indicator - Marketcap to GDP", "Benchmark Indexs", "Euribor rates",
+"Property prices", "Inflation - Portugal", "Currency exchange rates",
+ "Euro short-term rate (€STR)", "Key ECB interest rates", "SOFR", "CME Tool"]
+
+dashboard_main_title = "Market Risk Dashboard"
 
 path_bonds = 'https://raw.githubusercontent.com/TRAVEL-GVM/TRAVEL-MARKET-RISK/refs/heads/main/TRAVEL_Market_Risk/bonds_data/'
 path_cds = 'https://raw.githubusercontent.com/TRAVEL-GVM/TRAVEL-MARKET-RISK/refs/heads/main/TRAVEL_Market_Risk/cds_data/'
@@ -133,24 +136,6 @@ It analyzes seven different factors, such as stock price momentum, market volati
 A score close to 0 indicates extreme fear, suggesting that investors are cautious and more likely to sell,
 potentially driving prices down. A score close to 100 indicates extreme greed, meaning investors are confident and likely to buy more, pushing prices higher.
 The index helps traders understand market sentiment and identify potential buying or selling opportunities.
-"""
-
-bonds_str = """
-The 5-year government bond yield represents the return an investor can expect when holding a country's government bond for five years. 
-It reflects the cost of borrowing for the government and the overall confidence investors have in the country's economy.
-
-Bond yields are influenced by factors such as inflation expectations, interest rates, and economic conditions.
-A rising yield suggests that investors are demanding higher returns due to perceived risks or inflation, while a falling yield indicates greater confidence in the country’s economic stability.
-Data from sources like Investing.com provides real-time insights into these trends, helping investors assess market sentiment and economic outlook.
-"""
-
-cds_str = """
-A 5-year Credit Default Swap (CDS) represents a financial contract that protects against the risk of a country or company defaulting on its debt within five years.
-The CDS premium, or spread, is the cost an investor pays to buy this protection.
-
-A higher CDS spread indicates that the market perceives greater risk of default, meaning investors are more concerned about the country’s or company’s creditworthiness.
-Conversely, a lower CDS spread suggests confidence in the issuer's ability to meet its debt obligations. 
-CDS data, often sourced from platforms like Investing.com, helps investors gauge the perceived credit risk and overall economic stability of a country or company.
 """
 
 warren_str = """

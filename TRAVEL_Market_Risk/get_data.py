@@ -14,7 +14,7 @@ from fredapi import Fred
 from fake_useragent import UserAgent
 from datetime import datetime
 from config import *
-import wbdata
+#import wbdata
 from io import BytesIO
 import requests
 from io import StringIO

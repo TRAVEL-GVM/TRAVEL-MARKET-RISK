@@ -14,7 +14,6 @@ This is a **Streamlit** application that provides real-time visualizations of ma
   - **Euribor Rates**
   - **Commercial and Residential Property Prices**
   - **Interest Rates and Exchange Rates**
-  - **Sovereign Bond Yields (CDS and Bonds)**
   - **European Central Bank (ECB) Key Indicators**
   - **SOFR and other short-term rate indicators**
 

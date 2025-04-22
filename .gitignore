@@ -1,0 +1,44 @@
+# Arquivos Python gerados automaticamente
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Diretórios específicos do seu projeto
+TRAVEL_Market_Risk/__pycache__/
+
+# Arquivos de ambiente
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Arquivos de IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de cache e logs
+*.log
+*.cache
+.pytest_cache/
+
+# Arquivos de build/distribuição
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Arquivos Jupyter Notebook
+.ipynb_checkpoints/
+
+# Arquivos temporários
+*.tmp
+*~

@@ -14,44 +14,65 @@ def get_data_cached():
 #################################################### BUILD DASHBOARD ############################################
 
 st.set_page_config(page_title=dashboard_main_title, layout="wide")
-st.markdown(f"<h1 style='color:{default_color1};'>{dashboard_main_title}</h1>", unsafe_allow_html=True)
-
 # white Logo
-st.sidebar.markdown(f'<a><img src="{travel_logo_url}" alt="Logo" style="width: 100%;"></a>', unsafe_allow_html=True)
+st.markdown(f'''
+    <div style="text-align: center;">
+        <img src="{travel_logo_url}" alt="Logo" style="width: 30%;">
+    </div>
+    ''', unsafe_allow_html=True)
+# app title
+st.markdown(
+    f"<h1 style='color:{default_color1}; text-align: center;'>{dashboard_main_title}</h1>",
+    unsafe_allow_html=True
+)
+
 
 df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_all_bonds, df_all_cds, df_eur, df_sofr, df_fx, df_key_ecb_ir, df_ir_str = get_data_cached()
 
-st.sidebar.header("Select index:")
-indicador = st.sidebar.selectbox(
-    "Choose an indicator to analyse:", sidebar_indicators
-)
 
-if indicador == "Fear & Greed Index":
+tab0, tab1, tab2, tab3, tab4, tab5, tab7, tab8, tab9, tab10, tab11, tab12 = st.tabs(sidebar_indicators2)
+
+
+with tab0:
     st.markdown(f"<div style='text-align: center;'><h2>Fear & Greed (CNN index)</h2></div>", unsafe_allow_html=True)
-    if st.sidebar.checkbox("Show raw data"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_greed_fear, hide_index=True)
+    with st.expander("Show and download raw data", expanded=False):
+        if st.checkbox("Show raw data",  key="raw_data_tab0"):
+            st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
+            st.dataframe(df_greed_fear, hide_index=True)
 
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_greed_fear),
-                           file_name='greed_fear.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            st.download_button(label="Download in xlsx format",
+                            data=convert_df_to_excel(df_greed_fear),
+                            file_name='greed_fear.xlsx',
+                            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        
+    with st.expander("Greed & Fear index", expanded=True):
+        col1, col2 = st.columns(2)
+        with col1:
+            fear_greed_plot(df_greed_fear)
+        with col2:
+            st.markdown("#")
+            st.markdown(fear_greed_str, unsafe_allow_html=True)
+            st.write("**Source:** https://edition.cnn.com/markets/fear-and-greed?utm_source=hp")
+        
+    with st.expander("Evolution and anomalies over time", expanded=True):    
+        if st.checkbox("Show anomalies", key="show_anomalies_tab0"):
+            st.markdown(f"<h6 style='color:{default_color1};'>Anomalies</h6>", unsafe_allow_html=True)
+            method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
 
-    fear_greed_plot(df_greed_fear)
+            col3, col4 = st.columns(2)
+            with col3:
+                plot_anomalies(df_greed_fear, 'Rating', method)
+            with col4:
+                plot_interactive_time_series(df_greed_fear[['Date', 'Rating']], option_to_choose_variables='no')
+        else: 
+            plot_interactive_time_series(df_greed_fear[['Date', 'Rating']], option_to_choose_variables='no')
 
-    plot_interactive_time_series(df_greed_fear[['Date', 'Rating']], option_to_choose_variables='no')
 
-    if st.sidebar.checkbox("Show anomalies"):
-        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
-        plot_anomalies(df_greed_fear, 'Rating', method)
 
-    st.write("**Source:** https://edition.cnn.com/markets/fear-and-greed?utm_source=hp")
-    st.markdown(fear_greed_str, unsafe_allow_html=True)
-
-elif indicador == "Warren Buffett indicator - Marketcap to GDP":
+with tab2:
     st.markdown(f"<div style='text-align: center;'><h2>Warren Buffett indicator - Marketcap to GDP</h2></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
+    if st.checkbox("Show raw data",  key="raw_data_tab2"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
         st.dataframe(df_warren_buff, hide_index=True)
 
@@ -62,17 +83,17 @@ elif indicador == "Warren Buffett indicator - Marketcap to GDP":
 
     plot_interactive_time_series(df_warren_buff[['Date', 'Indicador de Warren Buffett (%)']], option_to_choose_variables='no')
 
-    if st.sidebar.checkbox("Show anomalies"):
-        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
+    if st.checkbox("Show anomalies", key="show_anomalies_tab2"):
+        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"], key='anom_tab2')
         plot_anomalies(df_warren_buff, 'Indicador de Warren Buffett (%)', method)
 
     #st.write("**Source:** https://edition.cnn.com/markets/fear-and-greed?utm_source=hp")
     st.markdown(warren_str, unsafe_allow_html=True)
 
-elif indicador == "VIX":
+with tab1:
     st.markdown(f"<div style='text-align: center;'><h2>VIX - Volatility index</h2></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
+    if st.checkbox("Show raw data",  key="raw_data_tab1"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
         st.dataframe(df_vix, hide_index=True)
 
@@ -83,17 +104,17 @@ elif indicador == "VIX":
 
     plot_interactive_time_series(df_vix, option_to_choose_variables='no')
 
-    if st.sidebar.checkbox("Show anomalies"):
-        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
+    if st.checkbox("Show anomalies", key="show_anomalies_tab1"):
+        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"], key="anom_tab1")
         plot_anomalies(df_vix, 'VIX', method)
 
     st.write("**Source:** https://finance.yahoo.com/quote/%5EVIX/")
     st.markdown(vix_str, unsafe_allow_html=True)
 
-elif indicador == "Benchmark Indexs":
+with tab3:
     st.markdown(f"<div style='text-align: center;'><h2>Benchmark Indexs</h2></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
+    if st.checkbox("Show raw data",  key="raw_data_tab3"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
         st.dataframe(df_benchmarks, hide_index=True)
 
@@ -108,15 +129,15 @@ elif indicador == "Benchmark Indexs":
     st.write("**Source:** Yahoo Finance")
     st.markdown(index_str, unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show anomalies"):
+    if st.checkbox("Show anomalies", key="show_anomalies_tab3"):
         column = st.selectbox("Select column to analyze anomalies", options=df_benchmarks.columns[1:], index=0)
         method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
         plot_anomalies(df_benchmarks, column, method)
 
-elif indicador == "Euribor rates - 1M, 3M, 6M, 12M":
+with tab4:
     st.markdown(f"<div style='text-align: center;'><h2>Euribor rates - 1M, 3M, 6M, 12M</h2></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
+    if st.checkbox("Show raw data",  key="raw_data_tab4"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
         st.dataframe(df_eur, hide_index=True)
 
@@ -130,79 +151,55 @@ elif indicador == "Euribor rates - 1M, 3M, 6M, 12M":
     st.markdown(euribor_str, unsafe_allow_html=True)
 
 
-elif indicador == "Yield Bonds 5Y - Spain, Germany, Portugal, Euro Area":
-    st.markdown(f"<div style='text-align: center;'><h2>Yield Bonds 5Y - Spain, Germany, Portugal, Euro Area</h2></div>", unsafe_allow_html=True)
+with tab5:
+    st.markdown(f"<div style='text-align: center;'><h3>Property prices - Portugal and Euro Area</h3></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_all_bonds, hide_index=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(f"<div style='text-align: center;'><h3>Commercial Property prices - Portugal and Euro Area</h3></div>", unsafe_allow_html=True)
 
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_all_bonds),
-                           file_name='bonds_5y.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        with st.expander("Show and download raw data", expanded=False):
+            if st.checkbox("Show raw data",  key="raw_data_tab5"):
+                st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
+                st.dataframe(df_aux_cppi, hide_index=True)
 
-    plot_interactive_time_series(df_all_bonds)
-    st.write("**Source:** Investing.com")
-    st.markdown(bonds_str, unsafe_allow_html=True)
+                st.download_button(label="Download in xlsx format",
+                                data=convert_df_to_excel(df_aux_cppi),
+                                file_name='cppi.xlsx',
+                                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+                
+        with st.expander("Plot data", expanded=True):
+            plot_interactive_time_series_years(df_aux_cppi)
+            st.write("**Source:** ECB & BIS")
+            st.markdown(cpp_str, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown(f"<div style='text-align: center;'><h3>Residential Property prices - Portugal and Euro Area</h3></div>", unsafe_allow_html=True)
+        with st.expander("Show and download raw data", expanded=False):
+            if st.checkbox("Show raw data",  key="raw_data_tab6"):
+                st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
+                st.dataframe(df_hpi, hide_index=True)
 
-elif indicador == "Yield CDS 5Y - Spain, Germany, USA":
-    st.markdown(f"<div style='text-align: center;'><h2>Yield bonds 5Y - Spain, Germany, USA</h2></div>", unsafe_allow_html=True)
+                st.download_button(label="Download in xlsx format",
+                                data=convert_df_to_excel(df_hpi),
+                                file_name='residential_price_index.xlsx',
+                                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        with st.expander("Plot data", expanded=True):
+            plot_interactive_time_series(df_hpi)
 
-    if st.sidebar.checkbox("Show raw data"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_all_cds, hide_index=True)
+        with st.expander("Time series anomaly detection"):
+            if st.checkbox("Show anomalies", key="show_anomalies_tab6"):
+                column = st.selectbox("Select column to analyze anomalies", options=df_hpi.columns[1:], index=0)
+                method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
+                plot_anomalies(df_hpi, column, method)
 
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_all_cds),
-                           file_name='cds_5y.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        st.write("**Source:** ECB")
+        st.markdown(resi_str, unsafe_allow_html=True)
 
-    plot_interactive_time_series(df_all_cds)
-    st.write("**Source:** Investing.com")
-    st.markdown(cds_str, unsafe_allow_html=True)
-
-elif indicador == "Commercial Property prices":
-    st.markdown(f"<div style='text-align: center;'><h2>Commercial Property prices - Portugal and Euro Area</h2></div>", unsafe_allow_html=True)
-
-    if st.sidebar.checkbox("Show raw data"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_aux_cppi, hide_index=True)
-
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_aux_cppi),
-                           file_name='cppi.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
-    plot_interactive_time_series_years(df_aux_cppi)
-    st.write("**Source:** ECB & BIS")
-    st.markdown(cpp_str, unsafe_allow_html=True)
-
-elif indicador == "Residential Property prices":
-    st.markdown(f"<div style='text-align: center;'><h2>Residential Property prices - Portugal and Euro Area</h2></div>", unsafe_allow_html=True)
-
-    if st.sidebar.checkbox("Show raw data"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_hpi, hide_index=True)
-
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_hpi),
-                           file_name='residential_price_index.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
-    plot_interactive_time_series(df_hpi)
-    st.write("**Source:** ECB")
-    st.markdown(resi_str, unsafe_allow_html=True)
-
-    if st.sidebar.checkbox("Show anomalies"):
-        column = st.selectbox("Select column to analyze anomalies", options=df_hpi.columns[1:], index=0)
-        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
-        plot_anomalies(df_hpi, column, method)
-
-elif indicador == "Inflation (CPI) - Portugal":
+with tab7:
     st.markdown(f"<div style='text-align: center;'><h2>Inflation (CPI) - Portugal</h2></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
+    if st.checkbox("Show raw data",  key="raw_data_tab7"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
         st.dataframe(df_ipc_pt, hide_index=True)
 
@@ -215,10 +212,10 @@ elif indicador == "Inflation (CPI) - Portugal":
     st.write("**Source:** https://bpstat.bportugal.pt/serie/5721524")
     st.markdown(inflation_str, unsafe_allow_html=True)
 
-elif indicador == "Currency exchange rates":
+with tab8:
     st.markdown(f"<div style='text-align: center;'><h2>Currency exchange rates</h2></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
+    if st.checkbox("Show raw data",  key="raw_data_tab8"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
         st.dataframe(df_fx, hide_index=True)
 
@@ -230,10 +227,10 @@ elif indicador == "Currency exchange rates":
     plot_interactive_time_series(df_fx)
     st.write("**Source:** https://finance.yahoo.com/quote/EURUSD=X/")
 
-elif indicador == "Euro short-term rate (€STR)":
+with tab9:
     st.markdown(f"<div style='text-align: center;'><h2>Euro short-term rate (€STR)</h2></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
+    if st.checkbox("Show raw data", key="raw_data_tab9"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
         st.dataframe(df_ir_str, hide_index=True)
 
@@ -244,18 +241,14 @@ elif indicador == "Euro short-term rate (€STR)":
 
     plot_interactive_time_series(df_ir_str, option_to_choose_variables='no')
 
-    if st.sidebar.checkbox("Show anomalies"):
-        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
-        plot_anomalies(df_ir_str, 'IR STR', method)
-
     st.write("**Source:** https://bpstat.bportugal.pt/dados/series?mode=graphic&svid=6698&series=12559714")
     st.markdown(ir_str_str, unsafe_allow_html=True)
 
 
-elif indicador == "SOFR":
+with tab11:
     st.markdown(f"<div style='text-align: center;'><h2>SOFR</h2></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
+    if st.checkbox("Show raw data", key="raw_data_tab11"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
         st.dataframe(df_sofr, hide_index=True)
 
@@ -269,10 +262,10 @@ elif indicador == "SOFR":
     st.write("**Source:**  https://fred.stlouisfed.org/")
     st.markdown(sofr_str, unsafe_allow_html=True)
 
-elif indicador == "Key ECB interest rates":
+with tab10:
     st.markdown(f"<div style='text-align: center;'><h2>Key ECB interest rates</h2></div>", unsafe_allow_html=True)
 
-    if st.sidebar.checkbox("Show raw data"):
+    if st.checkbox("Show raw data", key="raw_data_tab10"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
         st.dataframe(df_key_ecb_ir, hide_index=True)
 
@@ -286,7 +279,7 @@ elif indicador == "Key ECB interest rates":
     st.write("**Source:**  https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.pt.html")
     st.markdown(key_ecb_str, unsafe_allow_html=True)
 
-elif indicador == "CME Tool":
+with tab12:
     st.markdown(f"<div style='text-align: center;'><h2>CME FedWatch Tool</h2></div>", unsafe_allow_html=True)
     st.markdown(cme_tool_str, unsafe_allow_html=True)
 
