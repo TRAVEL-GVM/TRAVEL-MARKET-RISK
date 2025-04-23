@@ -54,7 +54,7 @@ with tab0:
             st.markdown(fear_greed_str, unsafe_allow_html=True)
             st.write("**Source:** https://edition.cnn.com/markets/fear-and-greed?utm_source=hp")
         
-    with st.expander("Evolution and anomalies over time", expanded=True):    
+    with st.expander("Fear and Greed evolution and anomalies over time", expanded=True):    
         if st.checkbox("Show anomalies", key="show_anomalies_tab0"):
             st.markdown(f"<h6 style='color:{default_color1};'>Anomalies</h6>", unsafe_allow_html=True)
             method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
@@ -131,7 +131,16 @@ with tab1:
                             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
         with st.expander("Stock market benchmarks", expanded=True):
-            plot_interactive_time_series(df_benchmarks)
+            normalize = st.checkbox("Normalize variables", key="normalize_benchmarks")
+            
+            if normalize:
+                # Normalizando as variáveis (excluindo a coluna 'Date')
+                df_benchmarks_normalized = df_benchmarks.copy()
+                for col in df_benchmarks_normalized.columns[1:]:
+                    df_benchmarks_normalized[col] = (df_benchmarks_normalized[col] - df_benchmarks_normalized[col].min()) / (df_benchmarks_normalized[col].max() - df_benchmarks_normalized[col].min())
+                plot_interactive_time_series(df_benchmarks_normalized)
+            else:
+                plot_interactive_time_series(df_benchmarks)
 
         with st.expander('Times anomaly detection', expanded=False):
             column = st.selectbox("Select column to analyze anomalies", options=df_benchmarks.columns[1:], index=0)
