@@ -54,22 +54,6 @@ def load_data():
     df_ipc_pt['Date'] = pd.to_datetime(df_ipc_pt['Date'])
     df_ipc_pt = df_ipc_pt[df_ipc_pt['Date'] >= '2000-01-01']
 
-    # bonds
-    df_bonds_pt = get_bonds_data('pt')
-    df_bonds_es = get_bonds_data('es')
-    df_bonds_ger = get_bonds_data('ger')
-    df_bonds_euro = get_data_bonds_euro_area(start_date='2020-01')
-    df_all_bonds = get_all_bonds_data().dropna()
-
-    # cds
-    df_cds_us = get_cds_data('us')
-    df_cds_es = get_cds_data('es')
-    df_cds_ger = get_cds_data('ger')
-    df_all_cds = df_cds_us.merge(df_cds_es, on='Date', how='outer').merge(df_cds_ger, on='Date', how='outer')
-    df_all_cds['Date'] = pd.to_datetime(df_all_cds['Date'], format='%d-%m-%Y')
-    df_all_cds['Date'] = df_all_cds['Date'].dt.strftime('%Y-%m-%d')
-    df_all_cds = df_all_cds.sort_values(by='Date')
-
     # EURIBOR
     df_eur = extract_euribors('2020-01')
 
@@ -92,4 +76,4 @@ def load_data():
     df_ir_str['Date'] = pd.to_datetime(df_ir_str['Date'])
     df_ir_str = df_ir_str[df_ir_str['Date'] >= '2000-01-01']
 
-    return df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_all_bonds, df_all_cds, df_eur, df_sofr, df_fx, df_key_ecb_ir, df_ir_str
+    return df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_eur, df_sofr, df_fx, df_key_ecb_ir, df_ir_str

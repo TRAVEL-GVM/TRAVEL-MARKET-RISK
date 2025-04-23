@@ -27,7 +27,7 @@ st.markdown(
 )
 
 
-df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_all_bonds, df_all_cds, df_eur, df_sofr, df_fx, df_key_ecb_ir, df_ir_str = get_data_cached()
+df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_eur, df_sofr, df_fx, df_key_ecb_ir, df_ir_str = get_data_cached()
 
 
 tab0, tab1, tab2, tab3, tab4, tab5, tab7, tab8, tab9, tab10, tab11, tab12 = st.tabs(sidebar_indicators2)
