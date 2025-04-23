@@ -30,7 +30,7 @@ st.markdown(
 df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_eur, df_fx, df_key_ecb_ir, df_ir_str = get_data_cached()
 
 
-tab0, tab1, tab4, tab5, tab7, tab8 = st.tabs(sidebar_indicators2)
+tab0, tab1, tab4, tab5, tab7, tab8, tab9 = st.tabs(sidebar_indicators2)
 
 
 with tab0:
@@ -227,7 +227,7 @@ with tab5:
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown(f"<div style='text-align: center;'><h3>Commercial Property prices - Portugal and Euro Area</h3></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='text-align: center; color: #179297'><h3>Commercial Property prices - Portugal and Euro Area</h3></div>", unsafe_allow_html=True)
 
         with st.expander("Show and download raw data", expanded=False):
             if st.checkbox("Show raw data",  key="raw_data_tab5"):
@@ -240,12 +240,21 @@ with tab5:
                                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
                 
         with st.expander("Plot Commercial Property prices data", expanded=True):
-            plot_interactive_time_series_years(df_aux_cppi)
+            normalizey = st.checkbox("Normalize variables", key="normalize_cppi")
+    
+            if normalizey:
+                # Normalizando as variáveis (excluindo a coluna 'Date')
+                df_aux_cppi_normalized = df_aux_cppi.copy()
+                for col in df_aux_cppi_normalized.columns[1:]:
+                    df_aux_cppi_normalized[col] = (df_aux_cppi_normalized[col] - df_aux_cppi_normalized[col].min()) / (df_aux_cppi_normalized[col].max() - df_aux_cppi_normalized[col].min())
+                plot_interactive_time_series_years(df_aux_cppi_normalized)
+            else:
+                plot_interactive_time_series_years(df_aux_cppi)
             st.write("**Source:** ECB & BIS")
             st.markdown(cpp_str, unsafe_allow_html=True)
     
     with col2:
-        st.markdown(f"<div style='text-align: center;'><h3>Residential Property prices - Portugal and Euro Area</h3></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='text-align: center; color: #179297'><h3>Residential Property prices - Portugal and Euro Area</h3></div>", unsafe_allow_html=True)
         with st.expander("Show and download raw data", expanded=False):
             if st.checkbox("Show raw data",  key="raw_data_tab6"):
                 st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
@@ -256,7 +265,16 @@ with tab5:
                                 file_name='residential_price_index.xlsx',
                                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         with st.expander("Plot Residential Property prices data", expanded=True):
-            plot_interactive_time_series(df_hpi)
+            normalizex = st.checkbox("Normalize variables", key="normalize_hpi")
+
+            if normalizex:
+                # Normalizando as variáveis (excluindo a coluna 'Date')
+                df_hpi_normalized = df_hpi.copy()
+                for col in df_hpi_normalized.columns[1:]:
+                    df_hpi_normalized[col] = (df_hpi_normalized[col] - df_hpi_normalized[col].min()) / (df_hpi_normalized[col].max() - df_hpi_normalized[col].min())
+                plot_interactive_time_series(df_hpi_normalized)
+            else:
+                plot_interactive_time_series(df_hpi)
 
         with st.expander("Time series anomaly detection"):
             if st.checkbox("Show anomalies", key="show_anomalies_tab6"):
@@ -268,7 +286,7 @@ with tab5:
         st.markdown(resi_str, unsafe_allow_html=True)
 
 with tab7:
-    st.markdown(f"<div style='text-align: center;'><h2>Inflation (CPI) - Portugal</h2></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='text-align: center; color: #179297'><h2>Inflation (CPI) - Portugal</h2></div>", unsafe_allow_html=True)
 
     if st.checkbox("Show raw data",  key="raw_data_tab7"):
         st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
@@ -298,6 +316,9 @@ with tab8:
     plot_interactive_time_series(df_fx)
     st.write("**Source:** https://finance.yahoo.com/quote/EURUSD=X/")
 
+with tab9:
+    st.markdown(f"<div style='text-align: center;'><h2>Commodities</h2></div>", unsafe_allow_html=True)
+    st.write("In progress ...")
 
 
 

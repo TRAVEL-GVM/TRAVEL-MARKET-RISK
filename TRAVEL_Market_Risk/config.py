@@ -2,17 +2,10 @@
 default_color1 = '#179297'
 default_color2 = '#BFCE28'
 
-sidebar_indicators = ("Fear & Greed Index", "Stock Market indicators", "Warren Buffett indicator - Marketcap to GDP", "Benchmark Indexs", "Euribor rates - 1M, 3M, 6M, 12M",
- "Commercial Property prices", "Residential Property prices", "Inflation (CPI) - Portugal", "Currency exchange rates",
- "Euro short-term rate (€STR)", "Key ECB interest rates", "SOFR", "CME Tool")
-
 sidebar_indicators2 = ["Fear & Greed", "Stock Market indicators", "Euribor rates, €STR & Key ECB interest rates",
-"Property prices", "Inflation - Portugal", "Currency exchange rates"]
+"Property prices", "Inflation - Portugal", "Currency exchange rates", "Commodities"]
 
 dashboard_main_title = "Market Risk Dashboard"
-
-path_bonds = 'https://raw.githubusercontent.com/TRAVEL-GVM/TRAVEL-MARKET-RISK/refs/heads/main/TRAVEL_Market_Risk/bonds_data/'
-path_cds = 'https://raw.githubusercontent.com/TRAVEL-GVM/TRAVEL-MARKET-RISK/refs/heads/main/TRAVEL_Market_Risk/cds_data/'
 
 travel_logo_url = "https://raw.githubusercontent.com/TRAVEL-GVM/TRAVEL-MARKET-RISK/refs/heads/main/TRAVEL_Market_Risk/travel_logo.webp"
 
