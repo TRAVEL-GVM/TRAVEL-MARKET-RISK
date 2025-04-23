@@ -267,6 +267,40 @@ def correlation_matrix(df_aux1, title):
     corr = df_numeric.corr()
     plt.figure(figsize=(6,5))
     sns.heatmap(corr, annot=True, cmap='Greens', fmt='.2f', cbar=True)
-    plt.title(title)
+    plt.suptitle(title)
     plt.tight_layout()
     st.pyplot(plt)
+
+def correlation_matrix2(df_aux1):
+    
+    df_numeric = df_aux1.drop(columns=['Date'])
+    corr_matrix = df_numeric.corr()
+
+    mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+
+    corr_matrix_masked = corr_matrix.where(~mask)
+
+    fig = px.imshow(
+        corr_matrix_masked,
+        color_continuous_scale='Greens',
+        aspect='auto',
+        title="Correlation Matrix",
+        labels=dict(x="", y="", color="Correlation"),
+        x=corr_matrix.columns,
+        y=corr_matrix.columns,
+        text_auto=".2f",
+    )
+
+    fig.update_traces(
+        textfont_size=16, 
+        textfont_family="Arial", 
+        textfont_color="black"  
+    )
+
+    fig.update_layout(
+    width=600,  
+    height=600,  
+    margin=dict(l=50, r=50, t=50, b=50)  
+)
+    
+    return fig

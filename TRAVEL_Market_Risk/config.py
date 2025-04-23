@@ -2,13 +2,12 @@
 default_color1 = '#179297'
 default_color2 = '#BFCE28'
 
-sidebar_indicators = ("Fear & Greed Index", "VIX", "Warren Buffett indicator - Marketcap to GDP", "Benchmark Indexs", "Euribor rates - 1M, 3M, 6M, 12M",
+sidebar_indicators = ("Fear & Greed Index", "Stock Market indicators", "Warren Buffett indicator - Marketcap to GDP", "Benchmark Indexs", "Euribor rates - 1M, 3M, 6M, 12M",
  "Commercial Property prices", "Residential Property prices", "Inflation (CPI) - Portugal", "Currency exchange rates",
  "Euro short-term rate (€STR)", "Key ECB interest rates", "SOFR", "CME Tool")
 
-sidebar_indicators2 = ["Fear & Greed", "VIX", "Warren Buffett indicator - Marketcap to GDP", "Benchmark Indexs", "Euribor rates",
-"Property prices", "Inflation - Portugal", "Currency exchange rates",
- "Euro short-term rate (€STR)", "Key ECB interest rates", "SOFR", "CME Tool"]
+sidebar_indicators2 = ["Fear & Greed", "Stock Market indicators", "Euribor rates, €STR & Key ECB interest rates",
+"Property prices", "Inflation - Portugal", "Currency exchange rates"]
 
 dashboard_main_title = "Market Risk Dashboard"
 
@@ -68,9 +67,9 @@ The €STR (Euro Short Term Rate) is the overnight euro money market reference r
 The €STR is based on daily borrowing transactions in the euro unsecured overnight money market, with transactions not only in the interbank market, but also with financial entities other than banks, such as insurers, pension funds and money market funds. </p>
 """
 
-cme_tool_str = f"""<h3 style=color:{default_color1}>What is the likelihood that the Fed will change the Federal target rate at upcoming FOMC meetings, according to interest rate traders?</h3>
+cme_tool_str = f"""<h5 style=color:{default_color1}>What is the likelihood that the Fed will change the Federal target rate at upcoming FOMC meetings, according to interest rate traders?</h5>
 Use CME FedWatch to track the probabilities of changes to the Fed rate, as implied by 30-Day Fed Funds futures prices.
-<br>"""
+<br><br>"""
 
 euribor_str = """
 The EURIBOR rates (short for Euro Interbank Offered Rate) are the benchmark rates of the euro money market for maturities ranging from one week to one year. 

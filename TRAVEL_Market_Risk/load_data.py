@@ -57,12 +57,6 @@ def load_data():
     # EURIBOR
     df_eur = extract_euribors('2020-01')
 
-    # SOFR
-    df_sofr = extract_daily_ts_from_fred('SOFR', 'SOFR', observation_start='2020-01-01').dropna() #KEY SOFRINDEX
-
-    # IPC USA
-    # df_ipc_usa = get_us_annual_inflation_data(start_date='2000-01-01')
-
     # FX EUR vs USD
     df_fx_eur_usd = get_exchange_rate_from_yf('EUR', 'USD', start_date='2020-01-01', end_date=None)
     df_fx_eur_gbp = get_exchange_rate_from_yf('EUR', 'GBP', start_date='2020-01-01', end_date=None)
@@ -76,4 +70,4 @@ def load_data():
     df_ir_str['Date'] = pd.to_datetime(df_ir_str['Date'])
     df_ir_str = df_ir_str[df_ir_str['Date'] >= '2000-01-01']
 
-    return df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_eur, df_sofr, df_fx, df_key_ecb_ir, df_ir_str
+    return df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_eur, df_fx, df_key_ecb_ir, df_ir_str

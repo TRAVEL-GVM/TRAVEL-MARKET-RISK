@@ -27,10 +27,10 @@ st.markdown(
 )
 
 
-df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_eur, df_sofr, df_fx, df_key_ecb_ir, df_ir_str = get_data_cached()
+df_benchmarks, df_hpi, df_aux_cppi, df_greed_fear, df_warren_buff, df_vix, df_ipc_pt, df_eur, df_fx, df_key_ecb_ir, df_ir_str = get_data_cached()
 
 
-tab0, tab1, tab2, tab3, tab4, tab5, tab7, tab8, tab9, tab10, tab11, tab12 = st.tabs(sidebar_indicators2)
+tab0, tab1, tab4, tab5, tab7, tab8 = st.tabs(sidebar_indicators2)
 
 
 with tab0:
@@ -67,88 +67,150 @@ with tab0:
         else: 
             plot_interactive_time_series(df_greed_fear[['Date', 'Rating']], option_to_choose_variables='no')
 
-
-
-with tab2:
-    st.markdown(f"<div style='text-align: center;'><h2>Warren Buffett indicator - Marketcap to GDP</h2></div>", unsafe_allow_html=True)
-
-    if st.checkbox("Show raw data",  key="raw_data_tab2"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_warren_buff, hide_index=True)
-
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_warren_buff),
-                           file_name='warren_buffett_index.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
-    plot_interactive_time_series(df_warren_buff[['Date', 'Indicador de Warren Buffett (%)']], option_to_choose_variables='no')
-
-    if st.checkbox("Show anomalies", key="show_anomalies_tab2"):
-        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"], key='anom_tab2')
-        plot_anomalies(df_warren_buff, 'Indicador de Warren Buffett (%)', method)
-
-    #st.write("**Source:** https://edition.cnn.com/markets/fear-and-greed?utm_source=hp")
-    st.markdown(warren_str, unsafe_allow_html=True)
-
 with tab1:
-    st.markdown(f"<div style='text-align: center;'><h2>VIX - Volatility index</h2></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='text-align: center;'><h2>Stock Market Indicators</h2></div>", unsafe_allow_html=True)
 
-    if st.checkbox("Show raw data",  key="raw_data_tab1"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_vix, hide_index=True)
+    col6, col7 = st.columns(2)
 
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_vix),
-                           file_name='vix.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    with col6:
+        st.markdown(f"<div style='text-align: center; color: #179297;'><h2>VIX - Volatility index</h2></div>", unsafe_allow_html=True)
 
-    plot_interactive_time_series(df_vix, option_to_choose_variables='no')
+        with st.expander('Show and download raw data', expanded=False):
+            st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
+            st.dataframe(df_vix, hide_index=True)
 
-    if st.checkbox("Show anomalies", key="show_anomalies_tab1"):
-        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"], key="anom_tab1")
-        plot_anomalies(df_vix, 'VIX', method)
+            st.download_button(label="Download in xlsx format",
+                            data=convert_df_to_excel(df_vix),
+                            file_name='vix.xlsx',
+                            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        with st.expander("VIX evolution over time", expanded=True):
+            plot_interactive_time_series(df_vix, option_to_choose_variables='no')
 
-    st.write("**Source:** https://finance.yahoo.com/quote/%5EVIX/")
-    st.markdown(vix_str, unsafe_allow_html=True)
+        with st.expander('Times anomaly detection', expanded=False):
+            method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"], key="anom_tab1")
+            plot_anomalies(df_vix, 'VIX', method)
 
-with tab3:
-    st.markdown(f"<div style='text-align: center;'><h2>Benchmark Indexs</h2></div>", unsafe_allow_html=True)
+        st.write("**Source:** https://finance.yahoo.com/quote/%5EVIX/")
+        st.markdown(vix_str, unsafe_allow_html=True)
 
-    if st.checkbox("Show raw data",  key="raw_data_tab3"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_benchmarks, hide_index=True)
+    with col7:
+        st.markdown(f"<div style='text-align: center; color: #179297'><h2>Warren Buffett indicator - Marketcap to GDP</h2></div>", unsafe_allow_html=True)
 
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_benchmarks),
-                           file_name='benchmarks.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        with st.expander('Show and download raw data', expanded=False):
+            st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
+            st.dataframe(df_warren_buff, hide_index=True)
 
-    plot_interactive_time_series(df_benchmarks)
-    correlation_matrix(df_benchmarks, "My Correlation Matrix")
+            st.download_button(label="Download in xlsx format",
+                            data=convert_df_to_excel(df_warren_buff),
+                            file_name='warren_buffett_index.xlsx',
+                            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        with st.expander("Warren Buffett index over time", expanded=True):
+            plot_interactive_time_series(df_warren_buff[['Date', 'Indicador de Warren Buffett (%)']], option_to_choose_variables='no')
 
-    st.write("**Source:** Yahoo Finance")
-    st.markdown(index_str, unsafe_allow_html=True)
+        with st.expander('Times anomaly detection', expanded=False):
+            method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"], key='anom_tab2')
+            plot_anomalies(df_warren_buff, 'Indicador de Warren Buffett (%)', method)
 
-    if st.checkbox("Show anomalies", key="show_anomalies_tab3"):
-        column = st.selectbox("Select column to analyze anomalies", options=df_benchmarks.columns[1:], index=0)
-        method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"])
-        plot_anomalies(df_benchmarks, column, method)
+        #st.write("**Source:** https://edition.cnn.com/markets/fear-and-greed?utm_source=hp")
+        st.markdown(warren_str, unsafe_allow_html=True)
+    
+    st.divider()
+
+    col8, col9 = st.columns(2)
+
+    with col8:
+        st.markdown(f"<div style='text-align: center; color: #179297'><h2>Benchmark Indexs</h2></div>", unsafe_allow_html=True)
+
+        with st.expander('Show and download raw data', expanded=False):
+            st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
+            st.dataframe(df_benchmarks, hide_index=True)
+        
+            st.download_button(label="Download in xlsx format",
+                            data=convert_df_to_excel(df_benchmarks),
+                            file_name='benchmarks.xlsx',
+                            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+        with st.expander("Stock market benchmarks", expanded=True):
+            plot_interactive_time_series(df_benchmarks)
+
+        with st.expander('Times anomaly detection', expanded=False):
+            column = st.selectbox("Select column to analyze anomalies", options=df_benchmarks.columns[1:], index=0)
+            method = st.selectbox("Select anomaly detection method", options=["isolation_forest", "HMM", "zscore"], key="stock_market_bench")
+            plot_anomalies(df_benchmarks, column, method)
+
+        st.write("**Source:** Yahoo Finance")
+        st.markdown(index_str, unsafe_allow_html=True)
+
+    with col9:
+
+        fig = correlation_matrix2(df_benchmarks)
+
+        # Mostrar no Streamlit
+        st.plotly_chart(fig, use_container_width=True)
+        #correlation_matrix2(df_benchmarks, "Correlation matrix")
 
 with tab4:
-    st.markdown(f"<div style='text-align: center;'><h2>Euribor rates - 1M, 3M, 6M, 12M</h2></div>", unsafe_allow_html=True)
 
-    if st.checkbox("Show raw data",  key="raw_data_tab4"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_eur, hide_index=True)
+    col20, col21 = st.columns(2)
 
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_eur),
-                           file_name='euribors.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    with col20:
+        st.markdown(f"<div style='text-align: center; color: #179297'><h2>Euribor rates</h2></div>", unsafe_allow_html=True)
 
-    plot_interactive_time_series(df_eur)
-    st.write("**Source:** Yahoo Finance")
-    st.markdown(euribor_str, unsafe_allow_html=True)
+        if st.checkbox("Show raw data",  key="raw_data_tab4"):
+            st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
+            st.dataframe(df_eur, hide_index=True)
+
+            st.download_button(label="Download in xlsx format",
+                            data=convert_df_to_excel(df_eur),
+                            file_name='euribors.xlsx',
+                            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+        plot_interactive_time_series(df_eur)
+        st.write("**Source:** Yahoo Finance")
+        st.markdown(euribor_str, unsafe_allow_html=True)
+
+    with col21:
+        with st.expander("What is the likelihood that the Fed will change the Federal target rate at upcoming FOMC meetings, according to interest rate traders?", expanded=False):
+            st.markdown(f"<div style='text-align: center;'><h2>CME FedWatch Tool</h2></div>", unsafe_allow_html=True)
+            st.markdown(cme_tool_str, unsafe_allow_html=True)
+            st.markdown(md_botao_cme, unsafe_allow_html=True)
+
+
+        with st.expander('Euro short-term rate (€STR)', expanded=True):
+            st.markdown(f"<div style='text-align: center; color: #179297'><h2>Euro short-term rate (€STR)</h2></div>", unsafe_allow_html=True)
+
+            if st.checkbox("Show raw data", key="raw_data_tab9"):
+                st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
+                st.dataframe(df_ir_str, hide_index=True)
+
+                st.download_button(label="Download in xlsx format",
+                                data=convert_df_to_excel(df_ir_str),
+                                file_name='short_term_rates.xlsx',
+                                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+            plot_interactive_time_series(df_ir_str, option_to_choose_variables='no')
+
+            st.write("**Source:** https://bpstat.bportugal.pt/dados/series?mode=graphic&svid=6698&series=12559714")
+            st.markdown(ir_str_str, unsafe_allow_html=True)
+
+
+        with st.expander('Key ECB interest rates', expanded=True):
+            st.markdown(f"<div style='text-align: center; color: #179297'><h2>Key ECB interest rates</h2></div>", unsafe_allow_html=True)
+
+            if st.checkbox("Show raw data", key="raw_data_tab10"):
+                st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
+                st.dataframe(df_key_ecb_ir, hide_index=True)
+
+                st.download_button(label="Download in xlsx format",
+                                data=convert_df_to_excel(df_key_ecb_ir),
+                                file_name='key_ecb_ir.xlsx',
+                                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+            plot_interactive_time_series(df_key_ecb_ir)
+
+            st.write("**Source:**  https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.pt.html")
+            st.markdown(key_ecb_str, unsafe_allow_html=True)
+
 
 
 with tab5:
@@ -168,7 +230,7 @@ with tab5:
                                 file_name='cppi.xlsx',
                                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
                 
-        with st.expander("Plot data", expanded=True):
+        with st.expander("Plot Commercial Property prices data", expanded=True):
             plot_interactive_time_series_years(df_aux_cppi)
             st.write("**Source:** ECB & BIS")
             st.markdown(cpp_str, unsafe_allow_html=True)
@@ -184,7 +246,7 @@ with tab5:
                                 data=convert_df_to_excel(df_hpi),
                                 file_name='residential_price_index.xlsx',
                                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        with st.expander("Plot data", expanded=True):
+        with st.expander("Plot Residential Property prices data", expanded=True):
             plot_interactive_time_series(df_hpi)
 
         with st.expander("Time series anomaly detection"):
@@ -227,63 +289,6 @@ with tab8:
     plot_interactive_time_series(df_fx)
     st.write("**Source:** https://finance.yahoo.com/quote/EURUSD=X/")
 
-with tab9:
-    st.markdown(f"<div style='text-align: center;'><h2>Euro short-term rate (€STR)</h2></div>", unsafe_allow_html=True)
-
-    if st.checkbox("Show raw data", key="raw_data_tab9"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_ir_str, hide_index=True)
-
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_ir_str),
-                           file_name='short_term_rates.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
-    plot_interactive_time_series(df_ir_str, option_to_choose_variables='no')
-
-    st.write("**Source:** https://bpstat.bportugal.pt/dados/series?mode=graphic&svid=6698&series=12559714")
-    st.markdown(ir_str_str, unsafe_allow_html=True)
-
-
-with tab11:
-    st.markdown(f"<div style='text-align: center;'><h2>SOFR</h2></div>", unsafe_allow_html=True)
-
-    if st.checkbox("Show raw data", key="raw_data_tab11"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_sofr, hide_index=True)
-
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_sofr),
-                           file_name='sofr.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
-    plot_interactive_time_series(df_sofr, option_to_choose_variables='no')
-
-    st.write("**Source:**  https://fred.stlouisfed.org/")
-    st.markdown(sofr_str, unsafe_allow_html=True)
-
-with tab10:
-    st.markdown(f"<div style='text-align: center;'><h2>Key ECB interest rates</h2></div>", unsafe_allow_html=True)
-
-    if st.checkbox("Show raw data", key="raw_data_tab10"):
-        st.markdown(f"<h6 style='color:{default_color1};'>Raw data</h6>", unsafe_allow_html=True)
-        st.dataframe(df_key_ecb_ir, hide_index=True)
-
-        st.download_button(label="Download in xlsx format",
-                           data=convert_df_to_excel(df_key_ecb_ir),
-                           file_name='key_ecb_ir.xlsx',
-                           mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
-    plot_interactive_time_series(df_key_ecb_ir)
-
-    st.write("**Source:**  https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.pt.html")
-    st.markdown(key_ecb_str, unsafe_allow_html=True)
-
-with tab12:
-    st.markdown(f"<div style='text-align: center;'><h2>CME FedWatch Tool</h2></div>", unsafe_allow_html=True)
-    st.markdown(cme_tool_str, unsafe_allow_html=True)
-
-    st.markdown(md_botao_cme, unsafe_allow_html=True)
 
 
 
