@@ -18,7 +18,7 @@ This project is a Streamlit-based dashboard that provides real-time or near-real
 ├── load_data.py 
 
 
- **# Visualization functions for plotting data**
+ **Visualization functions for plotting data**
 
 ├── viz.py
 
