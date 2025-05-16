@@ -15,7 +15,7 @@ This is a **Streamlit** application that provides real-time visualizations of ma
   - **Commercial and Residential Property Prices**
   - **Interest Rates and Exchange Rates**
   - **European Central Bank (ECB) Key Indicators**
-  - **SOFR and other short-term rate indicators**
+  - **Short-term rate indicators**
 
 - Anomaly detection in time series using methods such as:
   - Isolation Forest
@@ -50,7 +50,6 @@ This is a **Streamlit** application that provides real-time visualizations of ma
 - **Commercial and Residential Property Prices**: [ECB](https://www.ecb.europa.eu/) and [BIS](https://www.bis.org/)
 - **Currency Exchange Rates**: [Yahoo Finance](https://finance.yahoo.com/)
 - **Key ECB Interest Rates**: [ECB Official Website](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.pt.html)
-- **Yield Bonds and CDS**: [Investing.com](https://www.investing.com/)
 
 ## Anomaly Detection
 
