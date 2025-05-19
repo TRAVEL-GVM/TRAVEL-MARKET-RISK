@@ -7,9 +7,9 @@ import warnings
 warnings.filterwarnings("ignore")
 from xlsxwriter import Workbook
 
-#@st.cache_data(ttl=3600)  # Atualiza os dados a cada 3600 segundos (1 hora)
-#def get_data_cached():
-#    return load_data()
+@st.cache_data(ttl=3600)  # Atualiza os dados a cada 3600 segundos (1 hora)
+def get_data_cached():
+   return load_data()
 
 #################################################### BUILD DASHBOARD ############################################
 
