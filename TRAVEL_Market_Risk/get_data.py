@@ -394,12 +394,12 @@ def get_warren_buffet(start_date='2016-01-01'):
     gdp = gdp[['Year_Month', 'GDP']]
     gdp.columns = ['Date', 'GDP']
 
-    market_cap = get_yf_data('^FTW5000', start_date=start_date)
+    market_cap = get_yf_data('^W5000', start_date=start_date)
     market_cap['Date'] = pd.to_datetime(market_cap['Date'])
     market_cap['Year_Month'] = market_cap['Date'].dt.to_period('M')
     market_cap_first_day = market_cap.groupby('Year_Month').first().reset_index()
     market_cap_first_day['Year_Month'] = market_cap_first_day['Date'].dt.to_period('M')
-    market_cap_first_day = market_cap_first_day[['Year_Month', '^FTW5000']]
+    market_cap_first_day = market_cap_first_day[['Year_Month', '^W5000']]
     market_cap_first_day.columns = ['Date', 'Marketcap_5000']
 
     df = pd.merge(gdp, market_cap_first_day, how='left', on='Date')
@@ -440,7 +440,7 @@ def get_pt_cppi_annual_data_v2(start_year=2000):
 
 
 def get_euroarea18_cppi_annual_data(start_date='2000-01'):
-    key = "RESC.Q.I7._T.N._TC.TVAL.4F0.TH.N.IX"
+    key = "RESC.Q.I9._T.N._TC.TVAL.4F0.TH.N.IX"
     df = extract_data_from_ecb(key, start_date=start_date)[['TIME_PERIOD', 'OBS_VALUE']]
     df = df[df['TIME_PERIOD'] >= start_date]
     df.columns = ['Date', 'CPPI EURO AREA']
