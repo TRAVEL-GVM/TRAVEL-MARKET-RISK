@@ -5,7 +5,7 @@ from get_data import *
 from config import *
 import plotly.graph_objects as go
 import warnings
-warnings.filterwarnings("ignore")
+# warnings.filterwarnings("ignore")
 
 #yfinance
 #plotly
