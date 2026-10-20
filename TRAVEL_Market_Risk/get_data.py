@@ -440,7 +440,7 @@ def get_pt_cppi_annual_data_v2(start_year=2000):
 
 
 def get_euroarea18_cppi_annual_data(start_date='2000-01'):
-    key = "RESC.Q.I9._T.N._TC.TVAL.4F0.TH.N.IX"
+    key =  "RESC.Q.B6._T.N._TC.TVAL.4F0.TH.N.IX"
     df = extract_data_from_ecb(key, start_date=start_date)[['TIME_PERIOD', 'OBS_VALUE']]
     df = df[df['TIME_PERIOD'] >= start_date]
     df.columns = ['Date', 'CPPI EURO AREA']
